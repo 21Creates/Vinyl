@@ -1,9 +1,19 @@
+import { useEffect, useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { AuthPage } from '@/pages/AuthPage';
 import { Dashboard } from '@/pages/Dashboard';
 
 export function AppRoutes() {
   const { session, loading } = useAuth();
+  const [inviteCode, setInviteCode] = useState<string | null>(null);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const code = params.get('invite');
+    if (code && code.length >= 10) {
+      setInviteCode(code);
+    }
+  }, []);
 
   if (loading) {
     return (
@@ -21,5 +31,5 @@ export function AppRoutes() {
     return <AuthPage />;
   }
 
-  return <Dashboard />;
+  return <Dashboard initialInviteCode={inviteCode} />;
 }
