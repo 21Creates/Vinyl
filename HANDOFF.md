@@ -1,16 +1,18 @@
 # Vinyl — Handoff
 
-Phase 0 complete. Phase 1 complete. Fresh rebuild continues at Phase 2.
+Phase 0 complete. Phase 1 complete. Phase 2 complete. Phase 3 complete. Fresh rebuild continues at Phase 4.
 
 ## Where we are
 
-Phase 1 complete. Project skeleton built. Next: Phase 2 (Netlify deploy config verification).
+Phase 3 complete. Supabase + Auth built. Next: Phase 4 (Database schema + RLS).
 
 ## What's finished (verified)
 
 - Security check on reference repo (21Creates/music): PASSED — no leaked credentials found.
-- Phase 0: All governance files created (AGENTS.md, HANDOFF.md, DECISIONS.md, docs/VINYL-SPEC.md, README.md, package.json, vite.config.ts, tsconfig.json, tailwind.config.ts, netlify.toml, .env.example, .gitignore).
-- Phase 1: Project skeleton built (index.html with Inter + JetBrains Mono fonts, src/main.tsx, src/App.tsx with Vinyl Black bg + cream wordmark + acid tagline, src/index.css with Tailwind + safe-area utilities).
+- Phase 0: All governance files created.
+- Phase 1: Project skeleton built.
+- Phase 2: Netlify deploy config verified.
+- Phase 3: Supabase client, auth context (signup, login, logout, session persistence), profiles table with auto-create trigger, protected dashboard. Build verified (tsc + vite build pass). RLS enabled on profiles — users can only read/update their own profile, tier and is_admin are server-controlled (not in client grant).
 
 ## What's half-done
 
@@ -18,7 +20,7 @@ Nothing.
 
 ## What's next
 
-Phase 2 — Confirm netlify.toml is correct. Update HANDOFF.md with "Live URL: pending Netlify connection." Push. Then Phase 3 (Supabase + Auth).
+Phase 4 — Database schema + RLS. Numbered migrations for tracks, rooms, room_members, offline_saves, payments, app_settings. Every table has RLS. Every policy has a comment. verify_schema.sql that attempts exploits and shows them failing.
 
 ## Blocked on
 
@@ -26,18 +28,7 @@ Nothing.
 
 ## Live URL
 
-Pending Netlify connection.
-
-## Rules (verbatim)
-
-1. Tool-agnostic. No AI-specific features. Any agent can read the repo and continue.
-2. Boring stack. React + Vite + TypeScript + Tailwind + Supabase. No exotic dependencies.
-3. The repo tells the story. If it isn't in a file, it doesn't exist.
-4. Every phase ends with a commit and push. No uncommitted progress.
-5. Complete files only. Never partial edits.
-6. No placeholders, no TODOs, no stubs. Unbuilt = listed in HANDOFF.md, not shipped as code.
-7. HANDOFF.md is updated and pushed in the SAME commit as the phase's files.
-8. The repo is PUBLIC. No secrets in any file. No `.env` with real values. `.env.example` only.
+Pending Netlify connection. If Netlify is not yet connected to your GitHub repo, connect it at netlify.com → Add new site → Import existing project → select your repo. Once connected, every push auto-deploys.
 
 ## Environment
 
@@ -47,3 +38,4 @@ Pending Netlify connection.
 - Server-only (NEVER in client code):
   - `SUPABASE_SERVICE_ROLE_KEY` — used only in Edge Functions
   - `VINYL_WEBHOOK_SECRET` — HMAC secret for payment webhook verification
+- Note: The Supabase instance is provisioned. These vars are pre-populated in the hosted environment. For local dev, copy .env.example to .env and fill in values.
