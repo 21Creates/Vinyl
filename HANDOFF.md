@@ -1,19 +1,19 @@
 # Vinyl — Handoff
 
-Phase 0 complete. Phase 1 complete. Phase 2 complete. Phase 3 complete. Phase 4 complete. Fresh rebuild continues at Phase 5.
+Phase 0-5 complete. Fresh rebuild continues at Phase 6.
 
 ## Where we are
 
-Phase 4 complete. Database schema + RLS built. Next: Phase 5 (Listen loop).
+Phase 5 complete. Listen loop built. Next: Phase 6 (Offline library).
 
 ## What's finished (verified)
 
-- Security check on reference repo (21Creates/music): PASSED — no leaked credentials found.
-- Phase 0: All governance files created.
-- Phase 1: Project skeleton built.
-- Phase 2: Netlify deploy config verified.
-- Phase 3: Supabase client, auth context, signup/login/logout, session persistence, protected dashboard. Build verified.
-- Phase 4: Core database schema — tracks, rooms, room_members, room_tracks, payments, app_settings, settings_audit_log. All tables have RLS. All policies scoped per CRUD verb. SECURITY DEFINER functions for admin-only operations (insert/update/delete tracks, update payment status, update settings). is_admin() helper. generate_invite_code(). Default settings seeded. Anon access fully revoked (signed-in app). verify_schema.sql with exploit demonstrations. Security posture verified.
+- Phase 0: Governance files.
+- Phase 1: Project skeleton.
+- Phase 2: Netlify config verified.
+- Phase 3: Supabase + Auth (client, context, signup/login/logout, session, dashboard).
+- Phase 4: Database schema + RLS (8 tables, SECURITY DEFINER functions, anon revoked, verify_schema.sql).
+- Phase 5: Listen loop — browse page with search + filter (all/free/premium), audio player (play/pause/next/prev/seek/volume/mute), media session API, now-playing bar with progress seek, bottom nav. 5 demo tracks seeded. Build verified.
 
 ## What's half-done
 
@@ -21,7 +21,7 @@ Nothing.
 
 ## What's next
 
-Phase 5 — Listen loop. Browse, search, filter, player (play/pause/next/prev/seek), media session, now-playing bar with safe-area. Seed 3-5 demo tracks in a migration.
+Phase 6 — Offline library. Service worker, per-track "Available offline in Vinyl" toggle, blob-based cache (NOT URLs), eviction reconciliation. Free cap 3, premium cap 50.
 
 ## Blocked on
 
@@ -29,7 +29,7 @@ Nothing.
 
 ## Live URL
 
-Pending Netlify connection. If Netlify is not yet connected to your GitHub repo, connect it at netlify.com → Add new site → Import existing project → select your repo. Once connected, every push auto-deploys.
+Pending Netlify connection.
 
 ## Environment
 

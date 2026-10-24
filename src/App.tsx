@@ -1,10 +1,13 @@
 import { AuthProvider } from '@/context/AuthContext';
+import { PlayerProvider } from '@/context/PlayerContext';
 import { AppRoutes } from '@/AppRoutes';
 
 function App() {
   return (
     <AuthProvider>
-      <AppRoutes />
+      <PlayerProvider>
+        <AppRoutes />
+      </PlayerProvider>
     </AuthProvider>
   );
 }
