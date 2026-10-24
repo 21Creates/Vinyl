@@ -8,6 +8,7 @@ import {
   type ReactNode,
 } from 'react';
 import { supabase, type Profile } from '@/lib/supabase';
+import { getCachedTrackBlob } from '@/lib/offlineCache';
 
 export type Track = {
   id: string;
@@ -42,6 +43,15 @@ type PlayerContextValue = PlayerState & {
 };
 
 const PlayerContext = createContext<PlayerContextValue | undefined>(undefined);
+
+async function resolveAudioSrc(track: Track): Promise<string> {
+  try {
+    const blob = await getCachedTrackBlob(track.id);
+    if (blob) return URL.createObjectURL(blob);
+  } catch {
+  }
+  return track.audio_path;
+}
 
 export function PlayerProvider({ children }: { children: ReactNode }) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -98,9 +108,11 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     }
 
     setCurrentTrack(track);
-    audio.src = track.audio_path;
-    audio.play().catch(() => {
-      setIsPlaying(false);
+    resolveAudioSrc(track).then((src) => {
+      audio.src = src;
+      audio.play().catch(() => {
+        setIsPlaying(false);
+      });
     });
 
     if ('mediaSession' in navigator) {
@@ -134,8 +146,10 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     setCurrentTrack(track);
     const audio = audioRef.current;
     if (audio) {
-      audio.src = track.audio_path;
-      audio.play().catch(() => {});
+      resolveAudioSrc(track).then((src) => {
+        audio.src = src;
+        audio.play().catch(() => {});
+      });
     }
     if ('mediaSession' in navigator) {
       navigator.mediaSession.metadata = new MediaMetadata({
@@ -154,8 +168,10 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     setCurrentTrack(track);
     const audio = audioRef.current;
     if (audio) {
-      audio.src = track.audio_path;
-      audio.play().catch(() => {});
+      resolveAudioSrc(track).then((src) => {
+        audio.src = src;
+        audio.play().catch(() => {});
+      });
     }
     if ('mediaSession' in navigator) {
       navigator.mediaSession.metadata = new MediaMetadata({

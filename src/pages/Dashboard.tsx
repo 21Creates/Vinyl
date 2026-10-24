@@ -1,11 +1,12 @@
 import { useState } from 'react';
-import { Disc3, Compass, LogOut, User } from 'lucide-react';
+import { Disc3, Compass, Library, LogOut, User } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { usePlayer } from '@/context/PlayerContext';
 import { BrowsePage } from '@/pages/BrowsePage';
+import { LibraryPage } from '@/pages/LibraryPage';
 import { NowPlayingBar } from '@/components/NowPlayingBar';
 
-type View = 'browse' | 'profile';
+type View = 'browse' | 'library' | 'profile';
 
 export function Dashboard() {
   const { profile, signOut } = useAuth();
@@ -32,7 +33,8 @@ export function Dashboard() {
                 profile?.tier === 'premium'
                   ? 'bg-white-label-acid text-vinyl-black'
                   : 'bg-groove-charcoal text-sleeve-cream'
-              }`}
+              }`
+            }
             >
               {profile?.tier === 'premium' ? 'Premium' : 'Free'}
             </span>
@@ -49,6 +51,7 @@ export function Dashboard() {
 
       <div className="flex-1 flex flex-col">
         {view === 'browse' && <BrowsePage />}
+        {view === 'library' && <LibraryPage />}
         {view === 'profile' && (
           <div className="flex-1 flex flex-col items-center justify-center px-6">
             <div className="w-full max-w-md">
@@ -60,6 +63,11 @@ export function Dashboard() {
                   {profile?.display_name || profile?.email?.split('@')[0]}
                 </h2>
                 <p className="text-sm text-groove-gray">{profile?.email}</p>
+                {profile?.is_admin && (
+                  <span className="mt-3 text-xs font-medium px-3 py-1 rounded-full bg-test-pressing-red text-sleeve-cream">
+                    Admin
+                  </span>
+                )}
               </div>
             </div>
           </div>
@@ -85,10 +93,19 @@ export function Dashboard() {
             <span className="text-[10px] font-medium">Browse</span>
           </button>
           <button
+            onClick={() => setView('library')}
+            className={`flex flex-col items-center gap-1 py-1 px-4 transition-colors ${
+              view === 'library' ? 'text-white-label-acid' : 'text-groove-gray hover:text-sleeve-cream'
+            }`}
+          >
+            <Library className="w-5 h-5" />
+            <span className="text-[10px] font-medium">Library</span>
+          </button>
+          <button
             onClick={() => setView('profile')}
             className={`flex flex-col items-center gap-1 py-1 px-4 transition-colors ${
               view === 'profile' ? 'text-white-label-acid' : 'text-groove-gray hover:text-sleeve-cream'
-            }`
+            }`}
           >
             <User className="w-5 h-5" />
             <span className="text-[10px] font-medium">Profile</span>
