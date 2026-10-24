@@ -1,12 +1,14 @@
 import { useState } from 'react';
-import { Disc3, Compass, Library, LogOut, User } from 'lucide-react';
+import { Disc3, Compass, Library, LogOut, User, Crown, Shield } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { usePlayer } from '@/context/PlayerContext';
 import { BrowsePage } from '@/pages/BrowsePage';
 import { LibraryPage } from '@/pages/LibraryPage';
+import { UpgradePage } from '@/pages/UpgradePage';
+import { AdminPage } from '@/pages/AdminPage';
 import { NowPlayingBar } from '@/components/NowPlayingBar';
 
-type View = 'browse' | 'library' | 'profile';
+type View = 'browse' | 'library' | 'profile' | 'upgrade' | 'admin';
 
 export function Dashboard() {
   const { profile, signOut } = useAuth();
@@ -33,8 +35,7 @@ export function Dashboard() {
                 profile?.tier === 'premium'
                   ? 'bg-white-label-acid text-vinyl-black'
                   : 'bg-groove-charcoal text-sleeve-cream'
-              }`
-            }
+              }`}
             >
               {profile?.tier === 'premium' ? 'Premium' : 'Free'}
             </span>
@@ -52,6 +53,8 @@ export function Dashboard() {
       <div className="flex-1 flex flex-col">
         {view === 'browse' && <BrowsePage />}
         {view === 'library' && <LibraryPage />}
+        {view === 'upgrade' && <UpgradePage onBack={() => setView('profile')} />}
+        {view === 'admin' && <AdminPage onBack={() => setView('profile')} />}
         {view === 'profile' && (
           <div className="flex-1 flex flex-col items-center justify-center px-6">
             <div className="w-full max-w-md">
@@ -67,6 +70,34 @@ export function Dashboard() {
                   <span className="mt-3 text-xs font-medium px-3 py-1 rounded-full bg-test-pressing-red text-sleeve-cream">
                     Admin
                   </span>
+                )}
+              </div>
+
+              <div className="space-y-2">
+                {profile?.tier !== 'premium' && (
+                  <button
+                    onClick={() => setView('upgrade')}
+                    className="w-full flex items-center gap-3 p-4 rounded-xl bg-groove-charcoal hover:bg-groove-charcoal/70 transition-colors"
+                  >
+                    <Crown className="w-5 h-5 text-white-label-acid" />
+                    <div className="text-left">
+                      <p className="text-sm font-bold text-sleeve-cream">Upgrade to Premium</p>
+                      <p className="text-xs text-groove-gray">Unlock all tracks and offline downloads</p>
+                    </div>
+                  </button>
+                )}
+
+                {profile?.is_admin && (
+                  <button
+                    onClick={() => setView('admin')}
+                    className="w-full flex items-center gap-3 p-4 rounded-xl bg-groove-charcoal hover:bg-groove-charcoal/70 transition-colors"
+                  >
+                    <Shield className="w-5 h-5 text-white-label-acid" />
+                    <div className="text-left">
+                      <p className="text-sm font-bold text-sleeve-cream">Admin Panel</p>
+                      <p className="text-xs text-groove-gray">Manage payments and settings</p>
+                    </div>
+                  </button>
                 )}
               </div>
             </div>
@@ -104,7 +135,7 @@ export function Dashboard() {
           <button
             onClick={() => setView('profile')}
             className={`flex flex-col items-center gap-1 py-1 px-4 transition-colors ${
-              view === 'profile' ? 'text-white-label-acid' : 'text-groove-gray hover:text-sleeve-cream'
+              view === 'profile' || view === 'upgrade' || view === 'admin' ? 'text-white-label-acid' : 'text-groove-gray hover:text-sleeve-cream'
             }`}
           >
             <User className="w-5 h-5" />
