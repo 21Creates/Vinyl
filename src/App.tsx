@@ -2,6 +2,8 @@ import { AuthProvider, useAuth } from '@/context/AuthContext';
 import { PlayerProvider } from '@/context/PlayerContext';
 import { OfflineProvider } from '@/context/OfflineContext';
 import { AppRoutes } from '@/AppRoutes';
+import { InstallBanner } from '@/components/InstallBanner';
+import { UpdateBanner } from '@/components/UpdateBanner';
 
 function AppShell() {
   const { profile } = useAuth();
@@ -10,7 +12,9 @@ function AppShell() {
   return (
     <PlayerProvider>
       <OfflineProvider tier={tier}>
+        <UpdateBanner />
         <AppRoutes />
+        <InstallBanner />
       </OfflineProvider>
     </PlayerProvider>
   );

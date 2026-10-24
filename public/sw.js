@@ -1,11 +1,16 @@
-const CACHE_NAME = 'vinyl-shell-v1';
-const APP_SHELL = ['/', '/index.html'];
+const CACHE_NAME = 'vinyl-shell-v2';
+const APP_SHELL = ['/', '/index.html', '/manifest.json', '/favicon.svg'];
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => cache.addAll(APP_SHELL)).catch(() => {}),
   );
-  self.skipWaiting();
+});
+
+self.addEventListener('message', (event) => {
+  if (event.data?.type === 'SKIP_WAITING') {
+    self.skipWaiting();
+  }
 });
 
 self.addEventListener('activate', (event) => {
@@ -31,7 +36,7 @@ self.addEventListener('fetch', (event) => {
   }
 
   if (url.origin === self.location.origin) {
-    if (url.pathname === '/' || url.pathname === '/index.html') {
+    if (url.pathname === '/' || url.pathname === '/index.html' || url.pathname === '/manifest.json' || url.pathname === '/favicon.svg') {
       event.respondWith(
         caches.match(request).then((cached) => {
           const fetchPromise = fetch(request).then((response) => {
@@ -42,6 +47,7 @@ self.addEventListener('fetch', (event) => {
           return cached || fetchPromise;
         }),
       );
+      return;
     }
 
     if (url.pathname.startsWith('/assets/')) {

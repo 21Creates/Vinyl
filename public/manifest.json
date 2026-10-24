@@ -1,0 +1,31 @@
+{
+  "name": "Vinyl — unreleased. first.",
+  "short_name": "Vinyl",
+  "description": "Discover and play unreleased music before anyone else.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "0D0C0B",
+  "theme_color": "#0D0C0B",
+  "orientation": "portrait-primary",
+  "categories": ["music", "entertainment"],
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-maskable.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/apple-touch-icon.svg",
+      "sizes": "180x180",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

@@ -1,10 +1,10 @@
 # Vinyl — Handoff
 
-Phase 0-9 complete. Fresh rebuild continues at Phase 10.
+Phase 0-10 complete. Fresh rebuild continues at Phase 11.
 
 ## Where we are
 
-Phase 9 complete. Admin + Settings built. Next: Phase 10 (PWA + install).
+Phase 10 complete. PWA + install built. Next: Phase 11 (Hardening + launch).
 
 ## What's finished (verified)
 
@@ -18,6 +18,7 @@ Phase 9 complete. Admin + Settings built. Next: Phase 10 (PWA + install).
 - Phase 7: Premium + payment — Upgrade page, Admin payment approval, payment-webhook edge function (HMAC-signed).
 - Phase 8: Rooms — RoomsPage, RoomDetailPage, invite codes, auto-join via link, member approval, regenerate code.
 - Phase 9: Admin + Settings — Full Settings tab with batch save, dirty indicator, all app_settings fields configurable, audit log tab showing settings change history. App falls back to DEFAULT_SETTINGS if fetch fails. Build verified.
+- Phase 10: PWA + install — manifest.json with name/short_name/theme/background colors, SVG icons (vinyl record mark, maskable variant, favicon, apple-touch-icon), InstallBanner component with beforeinstallprompt event + dismiss persistence, UpdateBanner with SW update flow (updatefound → statechange → SKIP_WAITING → controllerchange → reload), service worker bumped to v2 with manifest+favicon caching, index.html with apple-mobile-web-app meta tags. Build verified.
 
 ## What's half-done
 
@@ -25,7 +26,7 @@ Nothing.
 
 ## What's next
 
-Phase 10 — PWA + install. Manifest, icons (mark at 16x16), maskable, apple-touch-icon, splash, install prompt, SW update flow, honest push scoping.
+Phase 11 — Hardening + launch. Full QA, Lighthouse, forbidden-patterns check, final README, LAUNCH.md.
 
 ## Blocked on
 
